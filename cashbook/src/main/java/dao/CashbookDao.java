@@ -32,6 +32,7 @@ public class CashbookDao {
 			stmt.setString(4, cashbook.getMemo());
 			stmt.setInt(5, cashbook.getCashbookNo());
 			stmt.executeUpdate();//insert, update와 함께
+			//해시태그부분.....
 			
 			
 			
