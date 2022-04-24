@@ -23,6 +23,7 @@ public class DeleteCashBookController extends HttpServlet {
 		
 		CashbookDao cashbookDao = new CashbookDao();
 		cashbookDao.deleteCashbook(cashbookNo);
+		
 		response.sendRedirect(request.getContextPath()+"/CashbookListByMonthController");
 	}
 

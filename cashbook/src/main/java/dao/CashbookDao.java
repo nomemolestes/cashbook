@@ -14,6 +14,41 @@ import vo.Cashbook;
 
 public class CashbookDao {
 	//갱신
+	public void updateCashbook(Cashbook cashbook, List<String>hashtag) {
+		//초기화
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			//디비연결
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			//text 쿼리문 전송
+			String sql = "update cashbook set cash_date=?, kind=?, cash=?, memo=?, update_date=new() where cashbook_no=?";
+			stmt = conn.prepareStatement(sql);//쿼리전송
+			stmt.setString(1, cashbook.getCashDate());//순번에 따라 String값으로 지정
+			stmt.setString(2, cashbook.getKind());
+			stmt.setInt(3, cashbook.getCash());
+			stmt.setString(4, cashbook.getMemo());
+			stmt.setInt(5, cashbook.getCashbookNo());
+			stmt.executeUpdate();//insert, update와 함께
+			
+			
+			
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				rs.close();
+				stmt.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	//상세보기
 	public Cashbook selectCashbookOne(int cashbookNo) {
