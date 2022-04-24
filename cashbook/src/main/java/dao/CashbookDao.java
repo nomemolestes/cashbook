@@ -13,6 +13,8 @@ import java.util.Map;
 import vo.Cashbook;
 
 public class CashbookDao {
+	//갱신
+	
 	//상세보기
 	public Cashbook selectCashbookOne(int cashbookNo) {
 		Cashbook cashbook = null;
