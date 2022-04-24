@@ -13,6 +13,80 @@ import java.util.Map;
 import vo.Cashbook;
 
 public class CashbookDao {
+	//상세보기
+	public Cashbook selectCashbookOne(int cashbookNo) {
+		Cashbook cashbook = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			String sql = "select * from cashbook where cashbook_no=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cashbookNo);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				cashbook = new Cashbook();
+				cashbook.setCashbookNo(rs.getInt("cashbook_no"));
+				cashbook.setCashDate(rs.getString("cash_date"));
+				cashbook.setKind(rs.getString("kind"));
+				cashbook.setCash(rs.getInt("cash"));
+				cashbook.setMemo(rs.getString("memo"));
+				cashbook.setUpdateDate(rs.getString("update_date"));
+				cashbook.setCreateDate(rs.getString("create_date"));;
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+					stmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		return cashbook;
+	}
+	//삭제
+	public void deleteCashbook(int cashbookNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql1 = "delete from hashtag where cashbook_no=?";
+		String sql2 = "delete from cashbook where cashbook_no=?";
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			
+			conn.setAutoCommit(false); // 오토커밋해제
+			stmt = conn.prepareStatement(sql1);
+			stmt.setInt(1, cashbookNo);
+			stmt.executeUpdate();
+			stmt.close(); 
+			
+			stmt = conn.prepareStatement(sql2);
+			stmt.setInt(1, cashbookNo);
+			stmt.executeUpdate();
+			conn.commit(); //최종 커밋
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	//삽입
 	public void insertCashbook(Cashbook cashbook, List<String> hashtag) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
