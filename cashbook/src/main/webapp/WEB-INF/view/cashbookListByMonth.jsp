@@ -15,6 +15,7 @@
 		실행되게 된 이유 : Server에서 web.xml에서 중간에 web-app앞에 해당 오류메세지(There is '1' error in 'javaee_7.xsd'.)와 함께 오류발생해서, 뒤에 xsi?에 있는 http주소들 사이를 세미콜론으로 구분했더니
 		해결완료 !!!!!
 	*/
+		//값받아옴...........
 		List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
 		int y = (Integer)request.getAttribute("y");
 		int m = (Integer)request.getAttribute("m");
@@ -23,7 +24,7 @@
 		int endDay = (Integer)request.getAttribute("endDay");
 		int endBlank = (Integer)request.getAttribute("endBlank");
 		int totalTd = (Integer)request.getAttribute("totalTd");
-		
+		//디버깅
 		System.out.println(list.size() +" <- list.size() CashbookListByMonth.jsp");
 		System.out.println(y +" <- y CaahbookListByMonth.jsp");
 		System.out.println(m +" <- m CaahbookListByMonth.jsp");
@@ -33,7 +34,7 @@
 		System.out.println(endBlank +" <- endBlank CaahbookListByMonth.jsp");
 		System.out.println(totalTd +" <- totalTd CaahbookListByMonth.jsp");
 	%>
-	<h2><%=y%>년 <%=m%>월</h2>
+	<h3><%=y%>년 <%=m%>월</h3>
 	<div>
 		<a href="<%=request.getContextPath()%>/CashbookListByMonthController?y=<%=y%>&m=<%=m-1%>">이전달</a>
 		<a href="<%=request.getContextPath()%>/CashbookListByMonthController?y=<%=y%>&m=<%=m+1%>">다음달</a>
@@ -71,6 +72,7 @@
 								c = "text-danger";
 							}
 				%>
+				<!-- 날짜출력 -->
 							<td class="<%=c%>">
 								<%=i-startBlank%>
 								<a href="<%=request.getContextPath()%>/InsertCashbookController?y=<%=y%>&m=<%=m%>&d=<%=i-startBlank%>" class="btn btn-light">입력</a>
@@ -81,6 +83,7 @@
 											if((Integer)map.get("day") == (i-startBlank)) {
 									%>
 												<div>
+													<a href="<%=request.getContextPath()%>/CashbookOneController?cashbookNo=<%=map.get("cashbookNo")%>"></a>
 													[<%=map.get("kind")%>] 
 													<%=map.get("cash")%>원
 													<%=map.get("memo")%>...
