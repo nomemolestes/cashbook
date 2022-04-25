@@ -53,31 +53,31 @@ public class CashbookDao {
 	
 	//상세보기
 	public Cashbook selectCashbookOne(int cashbookNo) {
-		Cashbook cashbook = null;
+		Cashbook cashbook = new Cashbook();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-			String sql = "select * from cashbook where cashbook_no=?";
+			String sql = "select cashbook_no cashbookNo, cash_date cashDate, kind, cash, memo, update_date updateDate, create_date createDate from cashbook where cashbook_no=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, cashbookNo);
 			rs = stmt.executeQuery();
 			if(rs.next()) {
-				cashbook = new Cashbook();
-				cashbook.setCashbookNo(rs.getInt("cashbook_no"));
-				cashbook.setCashDate(rs.getString("cash_date"));
+				cashbook.setCashbookNo(rs.getInt("cashbookNo"));
+				cashbook.setCashDate(rs.getString("cashDate"));
 				cashbook.setKind(rs.getString("kind"));
 				cashbook.setCash(rs.getInt("cash"));
 				cashbook.setMemo(rs.getString("memo"));
-				cashbook.setUpdateDate(rs.getString("update_date"));
-				cashbook.setCreateDate(rs.getString("create_date"));;
+				cashbook.setUpdateDate(rs.getString("updateDate"));
+				cashbook.setCreateDate(rs.getString("createDate"));
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
+					//반납
 					rs.close();
 					stmt.close();
 					conn.close();
@@ -85,6 +85,7 @@ public class CashbookDao {
 					e.printStackTrace();
 				}
 			}
+		//반환
 		return cashbook;
 	}
 	//삭제
@@ -128,15 +129,14 @@ public class CashbookDao {
 	public void insertCashbook(Cashbook cashbook, List<String> hashtag) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;//insert된 키값을 받아야하므로
+		ResultSet rs = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
-			conn.setAutoCommit(false);//자동커밋방지..
+			conn.setAutoCommit(false);//자동커밋방지
 			
 			String sql = "insert into cashbook(cash_date, kind, cash, memo, update_date, create_date"
-						+ " values(?,?,?,?,new(),now())";
-					//방금 입력된 insert 테이블에 키값을 select	ex)select 방금 입력한 cashbook_no from cashbook
+						+ " values(?,?,?,?,now(),now())";
 						stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 						stmt.setString(1, cashbook.getCashDate());
 						stmt.setString(2, cashbook.getMemo());
@@ -148,19 +148,16 @@ public class CashbookDao {
 						if(rs.next()) {
 							cashbookNo = rs.getInt(1);
 						}
-						
-						//hashtag저장코드
+						//hashtag저장
 						for(String h : hashtag) {
 							PreparedStatement stmt2 = null;
 							String sql2 = "insert into hashtag(cashbook_no, tag, create_date) values(?,?,new())";
 							stmt2 = conn.prepareStatement(sql2);
 							stmt2.setInt(1, cashbookNo);
 							stmt2.setString(2, h);
-							stmt2.executeUpdate();//실행
+							stmt2.executeUpdate();
 							
-						}
-						
-						
+						}	
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -198,7 +195,7 @@ public class CashbookDao {
 				+ "		 	,DAY(cash_date) day"
 				+ "		 	,kind"
 				+ "		 	,cash"
-				+ "			,LEFT(memo, 5) memo"
+				+ "			,LEFT(memo,5) memo"
 				+ "		 FROM cashbook"
 				+ "		 WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ?"
 				+ "		 ORDER BY DAY(cash_date) ASC, kind ASC";

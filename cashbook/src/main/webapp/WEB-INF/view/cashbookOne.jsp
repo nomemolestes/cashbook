@@ -2,7 +2,6 @@
 <%@ page import = "vo.*" %>
 <%
 	Cashbook cashbook = (Cashbook)request.getAttribute("cashbook");
-	int cashbookNo = (Integer)request.getAttribute("cashbookNo");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,7 +16,7 @@
   	<table class="table table-striped">
 		<tr>
 			<td>cashDate</td>
-			<td><%=cashbook.getCashDate() %></td>
+			<td><%=cashbook.getCashDate()%></td>
 		</tr>
 		<tr>
 			<td>kind</td>
