@@ -43,6 +43,8 @@ public class InsertCashbookController extends HttpServlet {
 		cashbook.setKind(kind);
 		cashbook.setCash(cash);
 		cashbook.setMemo(memo);
+		response.sendRedirect(request.getContextPath()+"/CashbookListByMonthController?y="+y+"&m="+m);//whyrano...
+
 		//해시태그 !!
 		//해시태그가 저장될 목록생성
 		List<String> hashtag = new ArrayList<>();
