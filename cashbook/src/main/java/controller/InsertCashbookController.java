@@ -37,13 +37,11 @@ public class InsertCashbookController extends HttpServlet {
 		System.out.println(cash + " <--cash InsertCashBookController.doPost()");
 		System.out.println(memo + " <--memo InsertCashBookController.doPost()");
 		//호출
-		CashbookDao cashbookDao = new CashbookDao();
 		Cashbook cashbook = new Cashbook();
 		cashbook.setCashDate(cashDate);
 		cashbook.setKind(kind);
 		cashbook.setCash(cash);
 		cashbook.setMemo(memo);
-		response.sendRedirect(request.getContextPath()+"/CashbookListByMonthController?y="+y+"&m="+m);//whyrano...
 
 		//해시태그 !!
 		//해시태그가 저장될 목록생성
@@ -59,9 +57,13 @@ public class InsertCashbookController extends HttpServlet {
 			}
 		}
 		  System.out.println(hashtag.size() + " <--hashtag.size InsertCashBookController.doPost()");
+			CashbookDao cashbookDao = new CashbookDao();
+			cashbookDao.insertCashbook(cashbook, hashtag);
 	      for(String h : hashtag) {
 	         System.out.println(h + " <-- hashtag InsertCashBookController.doPost()");
 	         
 	      }
+			response.sendRedirect(request.getContextPath()+"/CashbookListByMonthController");
+
 	   }
 	}
