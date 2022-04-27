@@ -13,6 +13,7 @@ import java.util.Map;
 import vo.Hashtag;
 
 public class HashtagDao {
+	//태그 많은 순... 순위매기기
 	public List<Map<String, Object>> selectTagRankList() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		Connection conn = null;
