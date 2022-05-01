@@ -13,6 +13,7 @@ import java.util.Map;
 import vo.Cashbook;
 
 public class CashbookDao {
+	private String memberId;
 	//갱신
 	public void updateCashbook(Cashbook cashbook, List<String>hashtag) {
 		//초기화
@@ -155,8 +156,8 @@ public class CashbookDao {
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
 			conn.setAutoCommit(false);//자동커밋방지
 			//쿼리문전송
-			String sql = "insert into cashbook(cash_date, kind, cash, memo, update_date, create_date"
-						+ " values(?,?,?,?,now(),now())";
+			String sql = "insert into cashbook(cash_date, kind, cash, memo, update_date, create_date, member_id"
+						+ " values(?,?,?,?,now(),now(),?)";
 			//쿼리문저장, insert 문 실행하고 자동생성된 기본키값을 검색...?
 					stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 					//물음표와 값, 어떤 데이터타입인지..매개변수에 값을 지정함
@@ -164,6 +165,7 @@ public class CashbookDao {
 					stmt.setString(2, cashbook.getMemo());
 					stmt.setInt(3, cashbook.getCash());
 					stmt.setString(4, cashbook.getMemo());
+					stmt.setString(5, cashbook.getMemberId());
 					//결과값리턴
 					stmt.executeUpdate();
 					rs = stmt.getGeneratedKeys();
@@ -227,7 +229,7 @@ public class CashbookDao {
 				+ "		 	,cash"
 				+ "			,LEFT(memo,5) memo"
 				+ "		 FROM cashbook"
-				+ "		 WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ?"
+				+ "		 WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ? and member_id=?"
 				+ "		 ORDER BY DAY(cash_date) ASC, kind ASC";
 		try {
 			//드라이버로딩
@@ -238,6 +240,7 @@ public class CashbookDao {
 			//물음표와 값, 어떤 데이터타입인지..매개변수에 값을 지정함
 			stmt.setInt(1, y);
 			stmt.setInt(2, m);
+			stmt.setString(3, memberId); 
 			//결과값리턴
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -248,6 +251,7 @@ public class CashbookDao {
 				map.put("kind", rs.getString("kind"));
 				map.put("cash", rs.getInt("cash"));
 				map.put("memo", rs.getString("memo"));
+				map.put("memberId", rs.getString("memberId"));
 				list.add(map);
 			}
 		} catch (Exception e) {

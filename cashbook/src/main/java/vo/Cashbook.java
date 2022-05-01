@@ -8,11 +8,12 @@ public class Cashbook {
 	private String memo;
 	private String updateDate;
 	private String CreateDate;
-	
+	private String MemberId;
 	@Override
 	public String toString() {
 		return "Cashbook [cashbookNo=" + this.cashbookNo + ", cashDate=" + this.cashDate + ", kind=" + this.kind + ", cash=" + this.cash
-				+ ", memo=" + this.memo + ", updateDate=" + this.updateDate + ", CreateDate=" + this.CreateDate + "]";
+				+ ", memo=" + this.memo + ", updateDate=" + this.updateDate + ", CreateDate=" + this.CreateDate + ", MemberId="
+				+ this.MemberId + "]";
 	}
 	public int getCashbookNo() {
 		return cashbookNo;
@@ -35,6 +36,9 @@ public class Cashbook {
 	public String getCreateDate() {
 		return CreateDate;
 	}
+	public String getMemberId() {
+		return MemberId;
+	}
 	public void setCashbookNo(int cashbookNo) {
 		this.cashbookNo = cashbookNo;
 	}
@@ -56,6 +60,10 @@ public class Cashbook {
 	public void setCreateDate(String createDate) {
 		CreateDate = createDate;
 	}
+	public void setMemberId(String memberId) {
+		MemberId = memberId;
+	}
+	
 	
 	
 }
