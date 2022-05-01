@@ -9,7 +9,7 @@
 <body>
 	<h2>로그인</h2>
 	<form action = "<%=request.getContextPath()%>/LoginController" method="post">
-		<table border="1">
+ 		 <table class="table table-striped">
 			<tr>
 				<td>memberId</td>
 				<td><input type="text" name="memberId"></td>
