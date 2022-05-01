@@ -4,11 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 <body>
 	<h1>insertCashBook</h1>
 	<form action="<%=request.getContextPath()%>/InsertCashbookController" method="post">
-		<table border="1">
+  		<table class="table table-striped">
 			<tr>
 				<td>날짜</td>
 				<td>
