@@ -18,11 +18,11 @@ public class HashtagDao {
 		List<Map<String, Object>> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;//insert된 키값을 받아야하므로
+		ResultSet rs = null;
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");			
-			String sql = "SELECT kind, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) ranking"
+			String sql = "SELECT kind, t.tag, t.cnt, RANK() over(ORDER BY t.cnt DESC) rank"
 					+" FROM"
 					+" (SELECT tag, COUNT(*) cnt"
 					+" FROM hashtag"
@@ -86,6 +86,5 @@ public class HashtagDao {
 		return list;
 		
 	}
-	//해시태그 많은순..
 
 }
