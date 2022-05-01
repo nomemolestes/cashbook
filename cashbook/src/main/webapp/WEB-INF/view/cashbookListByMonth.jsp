@@ -26,13 +26,13 @@
 		int totalTd = (Integer)request.getAttribute("totalTd");
 		//디버깅
 		System.out.println(list.size() +" <- list.size() CashbookListByMonth.jsp");
-		System.out.println(y +" <- y CaahbookListByMonth.jsp");
-		System.out.println(m +" <- m CaahbookListByMonth.jsp");
+		System.out.println(y +" <- y CashbookListByMonth.jsp");
+		System.out.println(m +" <- m CashbookListByMonth.jsp");
 		
-		System.out.println(startBlank +" <- startBlank CaahbookListByMonth.jsp");
-		System.out.println(endDay +" <- endDay CaahbookListByMonth.jsp");
-		System.out.println(endBlank +" <- endBlank CaahbookListByMonth.jsp");
-		System.out.println(totalTd +" <- totalTd CaahbookListByMonth.jsp");
+		System.out.println(startBlank +" <- startBlank CashbookListByMonth.jsp");
+		System.out.println(endDay +" <- endDay CashbookListByMonth.jsp");
+		System.out.println(endBlank +" <- endBlank CashbookListByMonth.jsp");
+		System.out.println(totalTd +" <- totalTd CashbookListByMonth.jsp");
 	%>
 	<h3><%=y%>년 <%=m%>월</h3>
 	<div>
