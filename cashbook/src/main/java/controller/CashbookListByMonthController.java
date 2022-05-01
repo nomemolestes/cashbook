@@ -10,12 +10,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.CashbookDao;
 
 @WebServlet("/CashbookListByMonthController")
 public class CashbookListByMonthController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//사용자 로그인에 따라서 컨트롤러 접근 허가 또는 불허 !!! 추가
+		HttpSession session = request.getSession();
+		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
+		if(sessionMemberId == null) {
+			//로그인 안했다면 !!!
+			response.sendRedirect(request.getContextPath()+"LoginController");//돌아가시오...
+		}
 		// 1) 월별 가계부 리스트 요청 분석
 		Calendar now = Calendar.getInstance(); // ex) 2022.04.19
 		int y = now.get(Calendar.YEAR);
