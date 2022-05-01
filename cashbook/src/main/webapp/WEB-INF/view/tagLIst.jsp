@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>tagList</title>
 </head>
-<body>
+<body> <!-- 구현중임 !! -->
 	<%
 		List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
 	%>
@@ -19,7 +19,7 @@
 				<td>tag</td>
 				<td>count</td>
 			</tr>
-	<%
+	<% 
 		for(Map<String, Object> map : list) {
 	%>
 			<tr>

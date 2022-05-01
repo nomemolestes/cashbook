@@ -25,7 +25,7 @@ public class InsertCashbookController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/insertCashBookForm.jsp").forward(request, response);
 	}
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		request.setCharacterEncoding("utf-8");//인코딩
 		String cashDate = request.getParameter("cashDate");
 		String kind = request.getParameter("kind");
