@@ -13,7 +13,7 @@ import java.util.Map;
 import vo.Hashtag;
 
 public class HashtagDao {
-	//태그 많은 순... 순위매기기
+	//태그 많은 순... 수입지출별 순위
 	public List<Map<String, Object>> selectTagRankList() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		Connection conn = null;
@@ -31,6 +31,7 @@ public class HashtagDao {
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Map<String, Object> map = new HashMap<>();
+				map.put("kind", rs.getString("kind"));
 				map.put("tag", rs.getString("tag"));
 				map.put("cnt", rs.getInt("t.cnt"));
 				map.put("rank", rs.getInt("rank"));
@@ -50,7 +51,7 @@ public class HashtagDao {
 		//반환
 		return list;
 	}
-	//해시태그 목록
+	//해시태그 목록 상세보기
 	public List<Map<String, Object>> selectCashbookListByTag(Hashtag hashtag) {
 		//저장할목록설정
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -85,6 +86,52 @@ public class HashtagDao {
 		}
 		return list;
 		
+	}
+	//태그 날짜별
+	public List<Map<String, Object>> selectListBydate(String cashDate) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		//초기화
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		//텍스트쿼리전송
+		String sql ="SELECT cash_date cashDate,t.tag tag, t.cnt cnt, RANK() over(ORDER BY t.cnt DESC) rank"
+				+ "	FROM"
+				+ "	(SELECT c.cash_date, tag, COUNT(*) cnt"
+				+ "	FROM hashtag t INNER JOIN cashbook c"
+				+ "	ON t.cashbook_no = c.cashbook_no"
+				+ "	WHERE c.cash_date =?"
+				+ "	GROUP BY t.tag) t";
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cashbook","root","java1234");
+			//쿼리문호출 저장?
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cashDate);
+			rs = stmt.executeQuery();
+			//데이터값저장
+			while(rs.next()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("cashDate", rs.getString("cashDate"));
+				map.put("tag", rs.getString("tag"));
+				map.put("cnt", rs.getString("cnt"));
+				map.put("rank", rs.getString("rank"));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//반납
+				rs.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		//반환
+		return list;
 	}
 
 }
