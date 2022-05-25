@@ -13,6 +13,10 @@
 </head>
 <body>
 	<h2>상세보기</h2>
+	<div class="float-right">
+		<a href="#">[<%=session.getAttribute("sessionMemberId")%>]</a>님 반갑습니다. &nbsp;
+		<a href="<%=request.getContextPath()%>/LogoutController" class="btn btn-outline-info btn-sm">로그아웃</a>
+	</div>
   	<table class="table table-striped">
 		<tr>
 			<td>cashDate</td>

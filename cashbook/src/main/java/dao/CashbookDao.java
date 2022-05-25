@@ -15,7 +15,7 @@ import vo.Cashbook;
 public class CashbookDao {
 	private String memberId;
 	//갱신
-	public void updateCashbook(Cashbook cashbook, List<String>hashtag) {
+	public void updateCashbook(Cashbook cashbook) {
 		//초기화
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -53,7 +53,7 @@ public class CashbookDao {
 	}
 	
 	//상세보기
-	public Cashbook selectCashbookOne(int cashbookNo) {
+	public Cashbook selectCashbookOne(int cashbookNo) { //int타입 캐시북번호만을 받음, 반환값은 Cashbook임.
 		//vo값 불러오기, 객체생성
 		Cashbook cashbook = new Cashbook();
 		//초기화
@@ -104,6 +104,7 @@ public class CashbookDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		//텍스트쿼리문 전송(해당 테이블에서 삭제할것)
+		//참조하므로
 		String sql1 = "delete from hashtag where cashbook_no=?";
 		String sql2 = "delete from cashbook where cashbook_no=?";
 		try {
@@ -229,7 +230,7 @@ public class CashbookDao {
 				+ "		 	,cash"
 				+ "			,LEFT(memo,5) memo"
 				+ "		 FROM cashbook"
-				+ "		 WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ? and member_id=?"
+				+ "		 WHERE YEAR(cash_date) = ? AND MONTH(cash_date) = ? and member_id= ?"
 				+ "		 ORDER BY DAY(cash_date) ASC, kind ASC";
 		try {
 			//드라이버로딩

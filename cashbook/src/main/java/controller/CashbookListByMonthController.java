@@ -22,7 +22,7 @@ public class CashbookListByMonthController extends HttpServlet {
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
 		if(sessionMemberId == null) {
 			//로그인 안했다면 !!!
-			response.sendRedirect(request.getContextPath()+"LoginController");//돌아가시오...
+			response.sendRedirect(request.getContextPath()+"LoginController");//LoginController로 돌아감
 		}
 		// 1) 월별 가계부 리스트 요청 분석
 		Calendar now = Calendar.getInstance(); // ex) 2022.04.19
